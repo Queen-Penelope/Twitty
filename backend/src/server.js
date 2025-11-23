@@ -6,16 +6,22 @@ import { clerkMiddleware } from "@clerk/express";
 import userRoutes from "./routes/user.route.js";
 import postsRoutes from "./routes/post.route.js"; // ✅ fixed path
 import commentsRoute from "./routes/comment.route.js";
+import notificationsRoute from "./routes/notification.route.js";
+import { arcjetMiddleware } from "./middleware/arcjet.middleware.js";
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(clerkMiddleware());
+app.use(arcjetMiddleware)
+
 
 app.get("/", (req, res) => res.send("HI from server"));
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/comments",commentsRoute);
+app.use("/api/notifications",notificationsRoute);
+
 //middleware:
 app.use((err, req,res)=>{
     console.error("Unhandled error:",err);
